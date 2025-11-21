@@ -1,6 +1,6 @@
-TILE_WIDTH = 7
-TILE_HEIGHT = 5
-TILE_DATA = {
+TILE_WIDTH: int = 7
+TILE_HEIGHT: int = 5
+TILE_DATA: dict[str, list[str]] = {
     "road top": ["◦◦◦║◦◦◦",
                  "◦◦◦╩◦◦◦",
                  "◦◦◦◦◦◦◦",
