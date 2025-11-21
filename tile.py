@@ -1,11 +1,14 @@
 import sys
 from tile_data import TILE_WIDTH, TILE_HEIGHT, TILE_DATA
 
+type TileCharDisplay = list[list[str]]
+type TileData = dict[str, list[str]]
 
-def construct_components(data: dict[str, list[str]]) -> dict[str, list[list[str]]]:
-    components: dict[str, list[list[str]]] = {}
+
+def construct_components(data: TileData) -> dict[str, TileCharDisplay]:
+    components: dict[str, TileCharDisplay] = {}
     for component in data:
-        line_list: list[list[str]] = []
+        line_list: TileCharDisplay = []
         for line in data[component]:
             char_list: list[str] = []
             for char in line:
@@ -14,27 +17,27 @@ def construct_components(data: dict[str, list[str]]) -> dict[str, list[list[str]
         components[component] = line_list
     return components
 
-TILE_COMPONENTS: dict[str, list[list[str]]] = construct_components(TILE_DATA)
+TILE_COMPONENTS: dict[str, TileCharDisplay] = construct_components(TILE_DATA)
 
 
 class Tile:
     def __init__(self, components: list[str]) -> None:
         # list of components must be ordered walls, roads, feature
-        self.components: list[list[list[str]]] = []
+        self.components: list[TileCharDisplay] = []
         for component in components:
             self.components.append(TILE_COMPONENTS[component])
 
 
-    def compose_tile(self) -> list[list[str]]:
+    def compose_tile(self) -> TileCharDisplay:
         """Assemble the tile components into a complete tile."""
-        ascii: list[list[str]] = TILE_COMPONENTS["frame"]
+        char_display: TileCharDisplay = TILE_COMPONENTS["frame"]
         for component in self.components:
             for i in range(TILE_HEIGHT):
                 for j in range(TILE_WIDTH):
                     if component[i][j] != "◦":
-                        ascii[i][j] = component[i][j]
+                        char_display[i][j] = component[i][j]
 
-        return ascii
+        return char_display
 
 
 def main() -> None:
