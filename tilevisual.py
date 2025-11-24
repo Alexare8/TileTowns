@@ -41,15 +41,19 @@ class TileVisual:
         return char_display
 
 
+def draw_single_tile(tile: TileCharDisplay) -> None:
+    for line in tile:
+        string = ""
+        for char in line:
+            string += char
+        print(string)
+
+
 def main() -> None:
     args: list[str] = sys.argv[1:]
     tile: TileVisual = TileVisual(args)
     output: list[list[str]] = tile.compose_tile()
-    for line in output:
-        string: str = ""
-        for char in line:
-            string += char
-        print(string)
+    draw_single_tile(output)
 
 
 if __name__ == "__main__":

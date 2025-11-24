@@ -31,7 +31,7 @@ TILE_DATA: dict[str, list[str]] = {
                        "◦◦◦◦◦◦◦",
                        "◦◦◦◦◦◦◦"
     ],
-    "road right bottom": ["◦◦◦◦◦◦◦",
+    "road bottom right": ["◦◦◦◦◦◦◦",
                           "◦◦◦◦◦◦◦",
                           "◦◦◦◦◦╔═",
                           "◦◦◦╔═╝◦",
@@ -43,7 +43,7 @@ TILE_DATA: dict[str, list[str]] = {
                          "◦╚═╗◦◦◦",
                          "◦◦◦║◦◦◦"
     ],
-    "road left top": ["◦◦◦║◦◦◦",
+    "road top left": ["◦◦◦║◦◦◦",
                       "◦╔═╝◦◦◦",
                       "═╝◦◦◦◦◦",
                       "◦◦◦◦◦◦◦",
