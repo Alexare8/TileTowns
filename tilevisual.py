@@ -1,4 +1,4 @@
-import sys
+from copy import deepcopy
 
 from tile_data import TILE_DATA, TILE_HEIGHT, TILE_WIDTH
 
@@ -24,37 +24,25 @@ TILE_COMPONENTS: dict[str, TileCharDisplay] = construct_components(TILE_DATA)
 
 class TileVisual:
     def __init__(self, components: list[str]) -> None:
-        # list of components must be ordered walls, roads, feature
+        # list of components must be ordered walls, features, roads
         self.components: list[TileCharDisplay] = []
         for component in components:
             self.components.append(TILE_COMPONENTS[component])
 
     def compose_tile(self) -> TileCharDisplay:
         """Assemble the tile components into a complete tile."""
-        char_display: TileCharDisplay = TILE_COMPONENTS["frame"]
+        char_display: TileCharDisplay = deepcopy(TILE_COMPONENTS["frame"])
         for component in self.components:
             for i in range(TILE_HEIGHT):
                 for j in range(TILE_WIDTH):
                     if component[i][j] != "◦":
                         char_display[i][j] = component[i][j]
-
         return char_display
 
-
-def draw_single_tile(tile: TileCharDisplay) -> None:
-    for line in tile:
-        string = ""
-        for char in line:
-            string += char
-        print(string)
-
-
-def main() -> None:
-    args: list[str] = sys.argv[1:]
-    tile: TileVisual = TileVisual(args)
-    output: list[list[str]] = tile.compose_tile()
-    draw_single_tile(output)
-
-
-if __name__ == "__main__":
-    main()
+    def draw_tile(self) -> None:
+        # print("TileVisual.draw_tile() is for testing only")
+        for line in self.compose_tile():
+            string = ""
+            for char in line:
+                string += char
+            print(string)

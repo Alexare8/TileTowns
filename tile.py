@@ -1,4 +1,9 @@
-from tilevisual import TileVisual, draw_single_tile
+from enum import Enum
+from socket import EAI_SYSTEM
+from subprocess import STD_OUTPUT_HANDLE
+
+from tile_set import STARTING_TILE, TILESET
+from tilevisual import TileVisual
 
 
 class Tile:
@@ -22,6 +27,24 @@ class Tile:
         self.monastery = monastery
         self.bonus = bonus
         self.visual = self.get_visual()
+
+    def __repr__(self) -> str:
+        output = []
+
+        roads = []
+        for road in self.roads:
+            roads.append(", ".join(road))
+        output.append(f"Roads: {roads}")
+
+        cities = []
+        for city in self.cities:
+            cities.append(", ".join(city))
+        output.append(f"Cities: {cities}")
+
+        output.append(f"Monastery: {self.monastery}")
+        output.append(f"Bonus: {self.bonus}")
+
+        return "\n".join(output)
 
     def get_visual(self) -> TileVisual:
         """Create tile visual from list of visual components in order walls, roads, features"""
@@ -47,24 +70,33 @@ class Tile:
             if len(city) == 4:
                 components.append("city center")
 
+        if self.monastery:
+            components.append("monastery")
+
         for road in self.roads:
             if len(road) == 1:
                 components.append(f"road {road[0]}")
             if len(road) == 2:
                 components.append(f"road {road[0]} {road[1]}")
 
-        if self.monastery:
-            components.append("monastery")
-
         return TileVisual(components)
 
 
-def main() -> None:
-    roads = []
-    cities = [["left", "right"]]
-    monastary = False
-    tile: Tile = Tile(roads, cities, monastary)
-    draw_single_tile(tile.visual.compose_tile())
+def show_tiles() -> None:
+    print("Starting Tile:")
+    starting_tile = Tile(**STARTING_TILE)
+    starting_tile.visual.draw_tile()
+    print("Tile Pool")
+    tiles = []
+    for tile, quantity in TILESET:
+        tiles.append((Tile(**tile), quantity))
+    for tile, quantity in tiles:
+        print(f"{quantity} of:")
+        tile.visual.draw_tile()
+
+
+def main():
+    show_tiles()
 
 
 if __name__ == "__main__":
